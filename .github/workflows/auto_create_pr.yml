@@ -1,0 +1,31 @@
+name: Auto crete PR
+
+on:
+  push:
+    branches:
+    - "feature.*"
+
+jobs:
+  pull-request-master:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Auto crete pull request to master"
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: "master"
+        pr_title: "[MASTER] ${{ github.ref_name }}"
+        pr_label: "auto-pr"
+        github_token: ${{ secrets.TOKEN }}
+
+  pull-request-staging:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: "Auto crete pull request to staging"
+      uses: repo-sync/pull-request@v2
+      with:
+        destination_branch: "staging"
+        pr_title: "[STAGING] ${{ github.ref_name }}"
+        pr_label: "auto-pr"
+        github_token: ${{ secrets.TOKEN }}
